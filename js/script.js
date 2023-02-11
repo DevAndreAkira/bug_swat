@@ -38,7 +38,7 @@ function createGame() {
                 if (placar % 10 === nivel) {
                     nivel = nivel + 1;
                 }
-                textPlacar.text = `Placar: ` + placar;
+                textPlacar.text = `Your score: ` + placar;
                 containerGamer.removeChild(bug);
                 sqek.play();
             })
@@ -47,7 +47,7 @@ function createGame() {
     }
     criandoBugs();
 
-    const textPlacar = new PIXI.Text(`Placar: ` + placar, {
+    const textPlacar = new PIXI.Text(`Your score: ` + placar, {
         fontSize: telaW > 767 ? 30 : 20,
         fontFamily: 'Times New Roman'
     });
@@ -56,7 +56,7 @@ function createGame() {
     textPlacar.y = app.screen.height / 2 - 225;
     containerGamer.addChild(textPlacar);
 
-    const textTimer = new PIXI.Text(`Tempo: ` + tempo, {
+    const textTimer = new PIXI.Text(`Time: ` + tempo, {
         fontSize: telaW > 767 ? 30 : 20,
         fontFamily: 'Times New Roman'
     });
@@ -127,7 +127,7 @@ function createGame() {
         else {
             criandoBugs();
             tempo = tempo - 1;
-            textTimer.text = `Tempo: ` + tempo;
+            textTimer.text = `Time: ` + tempo;
         }
     }, 1000)
 
