@@ -3,48 +3,25 @@
 const app = new PIXI.Application({ backgroundColor: '0xffffff' });
 document.body.appendChild(app.view);
 
+// ? SOUND EFFECT
+const sqek = PIXI.sound.Sound.from('./sound/sqek.mp3');
+sqek.volume = 0.1;
+const tada = PIXI.sound.Sound.from('./sound/tada.mp3');
+tada.volume = 0.1;
+
+let telaW = window.innerWidth;
+let telaH = window.innerHeight;
+
 function createGame() {
+    const qnts = (telaW > 767 ? 5 : 2);
+    let placar = 0;
+    let tempo = 30;
+
     const containerGamer = new PIXI.Container();
     app.stage.addChild(containerGamer);
 
     app.renderer.resize(window.innerWidth, window.innerHeight);
 
-    // ? SOUND EFFECT
-    const sqek = PIXI.sound.Sound.from('./sound/sqek.mp3');
-    sqek.volume = 0.1;
-    const tada = PIXI.sound.Sound.from('./sound/tada.mp3');
-    tada.volume = 0.1;
-
-    let telaW = window.innerWidth;
-    let telaH = window.innerHeight;
-    const qnts = (telaW > 767 ? 5 : 2);
-    let nivel = 1
-    let placar = 0;
-    let tempo = 30;
-
-    function criandoBugs() {
-        for (i = 0; i < qnts; i++) {
-            console.log("Criando bichos")
-            const bug = PIXI.Sprite.from('./img/bug_swat.png');
-            bug.anchor.set(0.5);
-            bug.x = app.screen.width - randomNumber(telaW);
-            bug.y = app.screen.height - randomNumber(telaH);
-            bug.width = 30;
-            bug.height = 30;
-            bug.interactive = true;
-            bug.cursor = 'pointer';
-            bug.on('pointerdown', () => {
-                placar = placar + 1;
-                if (placar % 10 === nivel) {
-                    nivel = nivel + 1;
-                }
-                textPlacar.text = `Your score: ` + placar;
-                containerGamer.removeChild(bug);
-                sqek.play();
-            })
-            containerGamer.addChild(bug);
-        }
-    }
     criandoBugs();
 
     const textPlacar = new PIXI.Text(`Your score: ` + placar, {
@@ -66,7 +43,7 @@ function createGame() {
     containerGamer.addChild(textTimer);
 
     const timerBug = setInterval(() => {
-        console.log("Ta pegando")
+        console.log("Gerando bugs")
         if (tempo <= 0) {
             tada.play();
             clearInterval(timerBug);
@@ -74,13 +51,6 @@ function createGame() {
 
             const containerscore = new PIXI.Container();
             app.stage.addChild(containerscore);
-
-            // const graphics = new PIXI.Graphics();
-            // graphics.beginFill(0xc0c0c0);
-            // graphics.lineStyle(2, 0x424242, 1);
-            // graphics.drawRect(app.screen.width / 2 - 150, 50, 300, 300);
-            // graphics.endFill();
-            // containerscore.addChild(graphics);
 
             const bug = PIXI.Sprite.from('./img/bug_swat.png');
             bug.anchor.set(0.5);
@@ -119,7 +89,6 @@ function createGame() {
             containerscore.addChild(retryText);
             retryText.on('pointerdown', () => {
                 containerscore.destroy();
-
                 createGame();
             })
 
@@ -131,8 +100,32 @@ function createGame() {
         }
     }, 1000)
 
+
+    //** FEATURES
+
     function randomNumber(max) {
         return Math.floor(Math.random() * max);
+    }
+
+    function criandoBugs() {
+        for (i = 0; i < qnts; i++) {
+            console.log("Criando bichos")
+            const bug = PIXI.Sprite.from('./img/bug_swat.png');
+            bug.anchor.set(0.5);
+            bug.x = app.screen.width - randomNumber(telaW);
+            bug.y = app.screen.height - randomNumber(telaH);
+            bug.width = 30;
+            bug.height = 30;
+            bug.interactive = true;
+            bug.cursor = 'pointer';
+            bug.on('pointerdown', () => {
+                placar = placar + 1;
+                textPlacar.text = `Your score: ` + placar;
+                containerGamer.removeChild(bug);
+                sqek.play();
+            })
+            containerGamer.addChild(bug);
+        }
     }
 }
 
