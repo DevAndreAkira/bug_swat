@@ -49,7 +49,7 @@ function createGame() {
 
     const textPlacar = new PIXI.Text(`Your score: ` + placar, {
         fontSize: telaW > 767 ? 30 : 20,
-        fontFamily: 'Times New Roman'
+        fontFamily: 'Windows'
     });
     textPlacar.anchor.set(0.5);
     textPlacar.x = app.screen.width / 2 - 100;
@@ -58,7 +58,7 @@ function createGame() {
 
     const textTimer = new PIXI.Text(`Time: ` + tempo, {
         fontSize: telaW > 767 ? 30 : 20,
-        fontFamily: 'Times New Roman'
+        fontFamily: 'Windows'
     });
     textTimer.anchor.set(0.5);
     textTimer.x = app.screen.width / 2 + 100;
@@ -91,7 +91,7 @@ function createGame() {
             containerscore.addChild(bug);
 
             const basicText = new PIXI.Text('Score', {
-                fontFamily: 'Times New Roman'
+                fontFamily: 'Windows'
             });
             basicText.anchor.set(0.5);
             basicText.x = app.screen.width / 2;
@@ -99,7 +99,7 @@ function createGame() {
             containerscore.addChild(basicText);
 
             const scoreText = new PIXI.Text(placar, {
-                fontFamily: 'Times New Roman',
+                fontFamily: 'Windows',
                 fontSize: 40
             });
             scoreText.anchor.set(0.5);
@@ -108,7 +108,7 @@ function createGame() {
             containerscore.addChild(scoreText);
 
             const retryText = new PIXI.Text('Retry', {
-                fontFamily: 'Times New Roman',
+                fontFamily: 'Windows',
                 fontSize: 36
             });
             retryText.interactive = true;
