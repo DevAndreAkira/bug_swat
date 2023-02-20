@@ -8,9 +8,29 @@ const sqek = PIXI.sound.Sound.from('./sound/sqek.mp3');
 sqek.volume = 0.1;
 const tada = PIXI.sound.Sound.from('./sound/tada.mp3');
 tada.volume = 0.1;
+const click = PIXI.sound.Sound.from('./sound/click.wav');
+click.volume = 0.1;
 
 let telaW = window.innerWidth;
 let telaH = window.innerHeight;
+
+app.renderer.resize(window.innerWidth, window.innerHeight);
+
+const startText = new PIXI.Text('Começar', {
+    fontFamily: 'Windows',
+    fontSize: 36
+});
+startText.interactive = true;
+startText.cursor = 'pointer';
+startText.anchor.set(0.5);
+startText.x = app.screen.width / 2;
+startText.y = app.screen.height / 2;
+app.stage.addChild(startText);
+startText.on('pointerdown', () => {
+    app.stage.removeChild(startText);
+    click.play();
+    createGame();
+})
 
 function createGame() {
     const qnts = (telaW > 767 ? 5 : 2);
@@ -54,8 +74,8 @@ function createGame() {
 
             const bug = PIXI.Sprite.from('./img/bug_swat.png');
             bug.anchor.set(0.5);
-            bug.width = 50;
-            bug.height = 50;
+            bug.width = app.screen.width < 767 ? 100 : 50;
+            bug.height = app.screen.width < 767 ? 100 : 50;
             bug.x = app.screen.width / 2;
             bug.y = 100;
             containerscore.addChild(bug);
@@ -88,6 +108,7 @@ function createGame() {
             retryText.y = app.screen.height / 2;
             containerscore.addChild(retryText);
             retryText.on('pointerdown', () => {
+                click.play();
                 containerscore.destroy();
                 createGame();
             })
@@ -128,5 +149,3 @@ function createGame() {
         }
     }
 }
-
-createGame();
