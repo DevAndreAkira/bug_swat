@@ -77,7 +77,7 @@ function createGame() {
             bug.width = app.screen.width < 767 ? 100 : 50;
             bug.height = app.screen.width < 767 ? 100 : 50;
             bug.x = app.screen.width / 2;
-            bug.y = 100;
+            bug.y = 50;
             containerscore.addChild(bug);
 
             const basicText = new PIXI.Text('Score', {
