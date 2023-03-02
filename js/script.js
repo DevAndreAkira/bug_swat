@@ -63,7 +63,7 @@ function createGame() {
     containerGamer.addChild(textTimer);
 
     const timerBug = setInterval(() => {
-        console.log("Gerando bugs")
+        // console.log("Gerando bugs")
         if (tempo <= 0) {
             tada.play();
             clearInterval(timerBug);
@@ -130,7 +130,7 @@ function createGame() {
 
     function criandoBugs() {
         for (i = 0; i < qnts; i++) {
-            console.log("Criando bichos")
+            // console.log("Criando bichos")
             const bug = PIXI.Sprite.from('./img/bug_swat.png');
             bug.anchor.set(0.5);
             bug.x = app.screen.width - randomNumber(telaW);
