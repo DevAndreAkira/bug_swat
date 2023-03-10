@@ -1,5 +1,3 @@
-
-
 const app = new PIXI.Application({ backgroundColor: '0xffffff' });
 document.body.appendChild(app.view);
 
@@ -39,8 +37,6 @@ function createGame() {
 
     const containerGamer = new PIXI.Container();
     app.stage.addChild(containerGamer);
-
-    app.renderer.resize(window.innerWidth, window.innerHeight);
 
     criandoBugs();
 
