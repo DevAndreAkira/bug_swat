@@ -1,4 +1,4 @@
-const app = new PIXI.Application({ backgroundColor: '0xffffff' });
+const app = new PIXI.Application({ backgroundAlpha: 0 });
 document.body.appendChild(app.view);
 
 // ? SOUND EFFECT
@@ -14,9 +14,13 @@ let telaH = window.innerHeight;
 
 app.renderer.resize(window.innerWidth, window.innerHeight);
 
+function convertorResponsivo(widthScreen, firtsValue, secondValue){
+    return telaW > widthScreen ? secondValue : firtsValue
+}
+
 const startText = new PIXI.Text('Começar', {
     fontFamily: 'Windows',
-    fontSize: 36
+    fontSize: convertorResponsivo(telaW, 32, 20)
 });
 startText.interactive = true;
 startText.cursor = 'pointer';
@@ -31,7 +35,7 @@ startText.on('pointerdown', () => {
 })
 
 function createGame() {
-    const qnts = (telaW > 767 ? 5 : 2);
+    const qnts = convertorResponsivo(telaW, 5, 2)
     let placar = 0;
     let tempo = 30;
 
@@ -41,7 +45,7 @@ function createGame() {
     criandoBugs();
 
     const textPlacar = new PIXI.Text(`Your score: ` + placar, {
-        fontSize: telaW > 767 ? 30 : 20,
+        fontSize: convertorResponsivo(telaW, 30, 20),
         fontFamily: 'Windows'
     });
     textPlacar.anchor.set(0.5);
@@ -50,7 +54,7 @@ function createGame() {
     containerGamer.addChild(textPlacar);
 
     const textTimer = new PIXI.Text(`Time: ` + tempo, {
-        fontSize: telaW > 767 ? 30 : 20,
+        fontSize: convertorResponsivo(telaW, 30, 20),
         fontFamily: 'Windows'
     });
     textTimer.anchor.set(0.5);
@@ -59,7 +63,6 @@ function createGame() {
     containerGamer.addChild(textTimer);
 
     const timerBug = setInterval(() => {
-        // console.log("Gerando bugs")
         if (tempo <= 0) {
             tada.play();
             clearInterval(timerBug);
@@ -70,14 +73,15 @@ function createGame() {
 
             const bug = PIXI.Sprite.from('./img/bug_swat.png');
             bug.anchor.set(0.5);
-            bug.width = app.screen.width < 767 ? 100 : 50;
-            bug.height = app.screen.width < 767 ? 100 : 50;
+            bug.width = convertorResponsivo(telaW, 50, 100)
+            bug.height = convertorResponsivo(telaW, 50, 100)
             bug.x = app.screen.width / 2;
             bug.y = 50;
             containerscore.addChild(bug);
 
             const basicText = new PIXI.Text('Score', {
-                fontFamily: 'Windows'
+                fontFamily: 'Windows',
+                fontSize: convertorResponsivo(telaW, 30, 20)
             });
             basicText.anchor.set(0.5);
             basicText.x = app.screen.width / 2;
@@ -108,7 +112,6 @@ function createGame() {
                 containerscore.destroy();
                 createGame();
             })
-
         }
         else {
             criandoBugs();
@@ -116,7 +119,6 @@ function createGame() {
             textTimer.text = `Time: ` + tempo;
         }
     }, 1000)
-
 
     //** FEATURES
 
@@ -126,7 +128,6 @@ function createGame() {
 
     function criandoBugs() {
         for (i = 0; i < qnts; i++) {
-            // console.log("Criando bichos") 
             const bug = PIXI.Sprite.from('./img/bug_swat.png');
             bug.anchor.set(0.5);
             bug.x = app.screen.width - randomNumber(telaW);
