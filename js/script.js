@@ -1,5 +1,6 @@
 const app = new PIXI.Application({ backgroundAlpha: 0 });
 document.body.appendChild(app.view);
+// A descrição a seguir mais me facilitar transpor para outras linguagens esses jogos
 
 // ? SOUND EFFECT
 const sqek = PIXI.sound.Sound.from('./sound/sqek.mp3');
@@ -9,15 +10,19 @@ tada.volume = 0.1;
 const click = PIXI.sound.Sound.from('./sound/click.wav');
 click.volume = 0.1;
 
+// Tamanho da tela total
 let telaW = window.innerWidth;
 let telaH = window.innerHeight;
 
+// Caso Redimenssione
 app.renderer.resize(window.innerWidth, window.innerHeight);
 
-function convertorResponsivo(widthScreen, firtsValue, secondValue){
+// Função para diferenciar o tamanho desktop para o mobile
+function convertorResponsivo(widthScreen, firtsValue, secondValue) {
     return telaW > widthScreen ? secondValue : firtsValue
 }
 
+// Criando texto de "Começar"
 const startText = new PIXI.Text('Começar', {
     fontFamily: 'Windows',
     fontSize: convertorResponsivo(telaW, 32, 20)
@@ -32,7 +37,7 @@ startText.on('pointerdown', () => {
     app.stage.removeChild(startText);
     click.play();
     createGame();
-})
+});
 
 function createGame() {
     const qnts = convertorResponsivo(telaW, 5, 2)
@@ -44,6 +49,7 @@ function createGame() {
 
     criandoBugs();
 
+    // Texto da pontuação
     const textPlacar = new PIXI.Text(`Your score: ` + placar, {
         fontSize: convertorResponsivo(telaW, 30, 20),
         fontFamily: 'Windows'
@@ -53,6 +59,7 @@ function createGame() {
     textPlacar.y = app.screen.height / 2 - 225;
     containerGamer.addChild(textPlacar);
 
+    // Texto do tempo
     const textTimer = new PIXI.Text(`Time: ` + tempo, {
         fontSize: convertorResponsivo(telaW, 30, 20),
         fontFamily: 'Windows'
@@ -62,14 +69,16 @@ function createGame() {
     textTimer.y = app.screen.height / 2 - 225;
     containerGamer.addChild(textTimer);
 
+    // Função do tempo rodando
     const timerBug = setInterval(() => {
         if (tempo <= 0) {
             tada.play();
             clearInterval(timerBug);
             containerGamer.destroy();
 
-            const containerscore = new PIXI.Container();
-            app.stage.addChild(containerscore);
+            // Criar tela de score
+            const containerScore = new PIXI.Container();
+            app.stage.addChild(containerScore);
 
             const bug = PIXI.Sprite.from('./img/bug_swat.png');
             bug.anchor.set(0.5);
@@ -77,7 +86,7 @@ function createGame() {
             bug.height = convertorResponsivo(telaW, 50, 100)
             bug.x = app.screen.width / 2;
             bug.y = 50;
-            containerscore.addChild(bug);
+            containerScore.addChild(bug);
 
             const basicText = new PIXI.Text('Score', {
                 fontFamily: 'Windows',
@@ -86,7 +95,7 @@ function createGame() {
             basicText.anchor.set(0.5);
             basicText.x = app.screen.width / 2;
             basicText.y = 150;
-            containerscore.addChild(basicText);
+            containerScore.addChild(basicText);
 
             const scoreText = new PIXI.Text(placar, {
                 fontFamily: 'Windows',
@@ -95,7 +104,7 @@ function createGame() {
             scoreText.anchor.set(0.5);
             scoreText.x = app.screen.width / 2;
             scoreText.y = 200;
-            containerscore.addChild(scoreText);
+            containerScore.addChild(scoreText);
 
             const retryText = new PIXI.Text('Retry', {
                 fontFamily: 'Windows',
@@ -106,10 +115,10 @@ function createGame() {
             retryText.anchor.set(0.5);
             retryText.x = app.screen.width / 2;
             retryText.y = app.screen.height / 2;
-            containerscore.addChild(retryText);
+            containerScore.addChild(retryText);
             retryText.on('pointerdown', () => {
                 click.play();
-                containerscore.destroy();
+                containerScore.destroy();
                 createGame();
             })
         }
