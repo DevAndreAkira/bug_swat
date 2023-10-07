@@ -24,7 +24,7 @@ function convertorResponsivo(widthScreen, firtsValue, secondValue) {
 
 // Criando texto de "Começar"
 const startText = new PIXI.Text('Começar', {
-    fontFamily: 'sans serif',
+    fontFamily: 'sans-serif',
     fontSize: convertorResponsivo(telaW, 32, 20)
 });
 startText.interactive = true;
@@ -52,7 +52,7 @@ function createGame() {
     // Texto da pontuação
     const textPlacar = new PIXI.Text(`Score: ` + placar, {
         fontSize: convertorResponsivo(telaW, 30, 20),
-        fontFamily: 'sans serif'
+        fontFamily: 'sans-serif'
     });
     textPlacar.anchor.set(0.5);
     textPlacar.x = app.screen.width / 2 - 100;
@@ -62,7 +62,7 @@ function createGame() {
     // Texto do tempo
     const textTimer = new PIXI.Text(`Time: ` + tempo, {
         fontSize: convertorResponsivo(telaW, 30, 20),
-        fontFamily: 'sans serif'
+        fontFamily: 'sans-serif'
     });
     textTimer.anchor.set(0.5);
     textTimer.x = app.screen.width / 2 + 100;
@@ -89,7 +89,7 @@ function createGame() {
             containerScore.addChild(bug);
 
             const basicText = new PIXI.Text('Score', {
-                fontFamily: 'sans serif',
+                fontFamily: 'sans-serif',
                 fontSize: convertorResponsivo(telaW, 30, 20)
             });
             basicText.anchor.set(0.5);
@@ -98,7 +98,7 @@ function createGame() {
             containerScore.addChild(basicText);
 
             const scoreText = new PIXI.Text(placar, {
-                fontFamily: 'sans serif',
+                fontFamily: 'sans-serif',
                 fontSize: 40
             });
             scoreText.anchor.set(0.5);
@@ -107,7 +107,7 @@ function createGame() {
             containerScore.addChild(scoreText);
 
             const retryText = new PIXI.Text('Retry', {
-                fontFamily: 'sans serif',
+                fontFamily: 'sans-serif',
                 fontSize: 36
             });
             retryText.interactive = true;
