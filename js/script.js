@@ -1,5 +1,6 @@
 const app = new PIXI.Application({ backgroundAlpha: 0 });
 document.body.appendChild(app.view);
+// Tipo de game - jogo incremental
 // A descrição a seguir mais me facilitar transpor para outras linguagens esses jogos
 
 // ? SOUND EFFECT
