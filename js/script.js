@@ -26,10 +26,10 @@ function convertorResponsivo(widthScreen, firtsValue, secondValue) {
     return telaW > widthScreen ? secondValue : firtsValue;
 }
 
-function createText(text, fontSize, x, y) {
+function createText(text, fontSizeArg, x, y) {
     const newText = new PIXI.Text(text, {
         fontFamily: 'sans-serif',
-        fontSize: convertorResponsivo(telaW, fontSize.desktop.fontSize, fontSize.mobile.fontSize),
+        fontSize: convertorResponsivo(telaW, fontSizeArg.desktop.fontSize, fontSizeArg.mobile.fontSize),
     });
     newText.anchor.set(0.5);
     newText.x = x;
