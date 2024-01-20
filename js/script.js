@@ -18,18 +18,18 @@ const sizes = {
     },
 };
 
-let telaW = window.innerWidth;
-let telaH = window.innerHeight;
+var telaW = window.innerWidth;
+var telaH = window.innerHeight;
 app.renderer.resize(telaW, telaH);
 
-function convertorResponsivo(widthScreen, firtsValue, secondValue) {
-    return telaW > widthScreen ? secondValue : firtsValue;
+function convertorResponsivo(firtsValue, secondValue) {
+    return telaW < 768 ? secondValue : firtsValue;
 }
 
 function createText(text, fontSizeArg, x, y) {
     const newText = new PIXI.Text(text, {
         fontFamily: 'sans-serif',
-        fontSize: convertorResponsivo(telaW, fontSizeArg.desktop.fontSize, fontSizeArg.mobile.fontSize),
+        fontSize: convertorResponsivo(fontSizeArg.desktop.fontSize, fontSizeArg.mobile.fontSize),
     });
     newText.anchor.set(0.5);
     newText.x = x;
@@ -50,7 +50,7 @@ function randomNumber(max) {
 }
 
 function createGame() {
-    const qnts = convertorResponsivo(telaW, 5, 2)
+    const qnts = convertorResponsivo(5, 2)
     let placar = 0;
     let tempo = 30;
 
@@ -61,7 +61,7 @@ function createGame() {
 
     // Texto da pontuação
     const textPlacar = new PIXI.Text(`Score: ` + placar, {
-        fontSize: convertorResponsivo(telaW, 30, 20),
+        fontSize: convertorResponsivo(30, 20),
         fontFamily: 'sans-serif'
     });
     textPlacar.anchor.set(0.5);
@@ -71,7 +71,7 @@ function createGame() {
 
     // Texto do tempo
     const textTimer = new PIXI.Text(`Time: ` + tempo, {
-        fontSize: convertorResponsivo(telaW, 30, 20),
+        fontSize: convertorResponsivo(30, 20),
         fontFamily: 'sans-serif'
     });
     textTimer.anchor.set(0.5);
@@ -92,15 +92,15 @@ function createGame() {
 
             const bug = PIXI.Sprite.from('./img/bug_swat.png');
             bug.anchor.set(0.5);
-            bug.width = convertorResponsivo(telaW, 50, 100)
-            bug.height = convertorResponsivo(telaW, 50, 100)
+            bug.width = convertorResponsivo(50, 100)
+            bug.height = convertorResponsivo(50, 100)
             bug.x = app.screen.width / 2;
             bug.y = 50;
             containerScore.addChild(bug);
 
             const basicText = new PIXI.Text('Score', {
                 fontFamily: 'sans-serif',
-                fontSize: convertorResponsivo(telaW, 30, 20)
+                fontSize: convertorResponsivo(30, 20)
             });
             basicText.anchor.set(0.5);
             basicText.x = app.screen.width / 2;
