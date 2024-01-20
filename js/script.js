@@ -1,44 +1,53 @@
 const app = new PIXI.Application({ backgroundAlpha: 0 });
 document.body.appendChild(app.view);
-// Tipo de game - jogo incremental
-// A descrição a seguir mais me facilitar transpor para outras linguagens esses jogos
 
-// ? SOUND EFFECT
-const sqek = PIXI.sound.Sound.from('./sound/sqek.mp3');
-sqek.volume = 0.1;
-const tada = PIXI.sound.Sound.from('./sound/tada.mp3');
-tada.volume = 0.1;
-const click = PIXI.sound.Sound.from('./sound/click.wav');
-click.volume = 0.1;
+const sounds = {
+    sqek: PIXI.sound.Sound.from('./sound/sqek.mp3'),
+    tada: PIXI.sound.Sound.from('./sound/tada.mp3'),
+    click: PIXI.sound.Sound.from('./sound/click.wav'),
+};
 
-// Tamanho da tela total
+const sizes = {
+    desktop: {
+        fontSize: 32,
+        bugSize: 30,
+    },
+    mobile: {
+        fontSize: 20,
+        bugSize: 20,
+    },
+};
+
 let telaW = window.innerWidth;
 let telaH = window.innerHeight;
+app.renderer.resize(telaW, telaH);
 
-// Caso Redimenssione
-app.renderer.resize(window.innerWidth, window.innerHeight);
-
-// Função para diferenciar o tamanho desktop para o mobile
 function convertorResponsivo(widthScreen, firtsValue, secondValue) {
-    return telaW > widthScreen ? secondValue : firtsValue
+    return telaW > widthScreen ? secondValue : firtsValue;
 }
 
-// Criando texto de "Começar"
-const startText = new PIXI.Text('Começar', {
-    fontFamily: 'sans-serif',
-    fontSize: convertorResponsivo(telaW, 32, 20)
-});
-startText.interactive = true;
-startText.cursor = 'pointer';
-startText.anchor.set(0.5);
-startText.x = app.screen.width / 2;
-startText.y = app.screen.height / 2;
-app.stage.addChild(startText);
-startText.on('pointerdown', () => {
-    app.stage.removeChild(startText);
-    click.play();
-    createGame();
-});
+function createText(text, fontSize, x, y) {
+    const newText = new PIXI.Text(text, {
+        fontFamily: 'sans-serif',
+        fontSize: convertorResponsivo(telaW, fontSize.desktop.fontSize, fontSize.mobile.fontSize),
+    });
+    newText.anchor.set(0.5);
+    newText.x = x;
+    newText.y = y;
+    return newText;
+}
+
+function createButton(text, fontSize, x, y, onClick) {
+    const button = createText(text, fontSize, x, y);
+    button.interactive = true;
+    button.cursor = 'pointer';
+    button.on('pointerdown', onClick);
+    return button;
+}
+
+function randomNumber(max) {
+    return Math.floor(Math.random() * max);
+}
 
 function createGame() {
     const qnts = convertorResponsivo(telaW, 5, 2)
@@ -48,7 +57,7 @@ function createGame() {
     const containerGamer = new PIXI.Container();
     app.stage.addChild(containerGamer);
 
-    criandoBugs();
+    createBugs();
 
     // Texto da pontuação
     const textPlacar = new PIXI.Text(`Score: ` + placar, {
@@ -73,7 +82,7 @@ function createGame() {
     // Função do tempo rodando
     const timerBug = setInterval(() => {
         if (tempo <= 0) {
-            tada.play();
+            sounds.tada.play();
             clearInterval(timerBug);
             containerGamer.destroy();
 
@@ -118,13 +127,13 @@ function createGame() {
             retryText.y = app.screen.height / 2;
             containerScore.addChild(retryText);
             retryText.on('pointerdown', () => {
-                click.play();
+                sounds.click.play();
                 containerScore.destroy();
                 createGame();
             })
         }
         else {
-            criandoBugs();
+            createBugs();
             tempo = tempo - 1;
             textTimer.text = `Time: ` + tempo;
         }
@@ -136,7 +145,7 @@ function createGame() {
         return Math.floor(Math.random() * max);
     }
 
-    function criandoBugs() {
+    function createBugs() {
         for (i = 0; i < qnts; i++) {
             const bug = PIXI.Sprite.from('./img/bug_swat.png');
             bug.anchor.set(0.5);
@@ -150,9 +159,17 @@ function createGame() {
                 placar = placar + 1;
                 textPlacar.text = `Score: ` + placar;
                 containerGamer.removeChild(bug);
-                sqek.play();
+                sounds.sqek.play();
             })
             containerGamer.addChild(bug);
         }
     }
 }
+
+const startText = createButton('Começar', sizes, app.screen.width / 2, app.screen.height / 2, () => {
+    app.stage.removeChild(startText);
+    sounds.click.play();
+    createGame();
+});
+
+app.stage.addChild(startText);
