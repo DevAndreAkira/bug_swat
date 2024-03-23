@@ -1,3 +1,5 @@
+import { RandomNumber } from "../module/randomNumber.js";
+
 const app = new PIXI.Application({ backgroundAlpha: 0 });
 document.body.appendChild(app.view);
 
@@ -18,18 +20,18 @@ const sizes = {
     },
 };
 
-var telaW = window.innerWidth;
-var telaH = window.innerHeight;
+let telaW = window.innerWidth;
+let telaH = window.innerHeight;
 app.renderer.resize(telaW, telaH);
 
-function convertorResponsivo(firtsValue, secondValue) {
-    return telaW < 768 ? secondValue : firtsValue;
+function convertorResponsivo(widthScreen, firtsValue, secondValue) {
+    return telaW > widthScreen ? secondValue : firtsValue;
 }
 
-function createText(text, fontSizeArg, x, y) {
+function createText(text, fontSize, x, y) {
     const newText = new PIXI.Text(text, {
         fontFamily: 'sans-serif',
-        fontSize: convertorResponsivo(fontSizeArg.desktop.fontSize, fontSizeArg.mobile.fontSize),
+        fontSize: convertorResponsivo(telaW, fontSize.desktop.fontSize, fontSize.mobile.fontSize),
     });
     newText.anchor.set(0.5);
     newText.x = x;
@@ -45,12 +47,8 @@ function createButton(text, fontSize, x, y, onClick) {
     return button;
 }
 
-function randomNumber(max) {
-    return Math.floor(Math.random() * max);
-}
-
 function createGame() {
-    const qnts = convertorResponsivo(5, 2)
+    const qnts = convertorResponsivo(telaW, 5, 2)
     let placar = 0;
     let tempo = 30;
 
@@ -61,7 +59,7 @@ function createGame() {
 
     // Texto da pontuação
     const textPlacar = new PIXI.Text(`Score: ` + placar, {
-        fontSize: convertorResponsivo(30, 20),
+        fontSize: convertorResponsivo(telaW, 30, 20),
         fontFamily: 'sans-serif'
     });
     textPlacar.anchor.set(0.5);
@@ -71,7 +69,7 @@ function createGame() {
 
     // Texto do tempo
     const textTimer = new PIXI.Text(`Time: ` + tempo, {
-        fontSize: convertorResponsivo(30, 20),
+        fontSize: convertorResponsivo(telaW, 30, 20),
         fontFamily: 'sans-serif'
     });
     textTimer.anchor.set(0.5);
@@ -92,15 +90,15 @@ function createGame() {
 
             const bug = PIXI.Sprite.from('./img/bug_swat.png');
             bug.anchor.set(0.5);
-            bug.width = convertorResponsivo(50, 100)
-            bug.height = convertorResponsivo(50, 100)
+            bug.width = convertorResponsivo(telaW, 50, 100)
+            bug.height = convertorResponsivo(telaW, 50, 100)
             bug.x = app.screen.width / 2;
             bug.y = 50;
             containerScore.addChild(bug);
 
             const basicText = new PIXI.Text('Score', {
                 fontFamily: 'sans-serif',
-                fontSize: convertorResponsivo(30, 20)
+                fontSize: convertorResponsivo(telaW, 30, 20)
             });
             basicText.anchor.set(0.5);
             basicText.x = app.screen.width / 2;
@@ -141,16 +139,12 @@ function createGame() {
 
     //** FEATURES
 
-    function randomNumber(max) {
-        return Math.floor(Math.random() * max);
-    }
-
     function createBugs() {
-        for (i = 0; i < qnts; i++) {
+        for (let i = 0; i < qnts; i++) {
             const bug = PIXI.Sprite.from('./img/bug_swat.png');
             bug.anchor.set(0.5);
-            bug.x = app.screen.width - randomNumber(telaW);
-            bug.y = app.screen.height - randomNumber(telaH);
+            bug.x = app.screen.width - RandomNumber.generate(telaW);
+            bug.y = app.screen.height - RandomNumber.generate(telaH);
             bug.width = 30;
             bug.height = 30;
             bug.interactive = true;
